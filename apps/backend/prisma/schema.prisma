@@ -1,0 +1,312 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum RoleEnum {
+  CLIENT
+  DRIVER
+  VENDOR
+  ADMIN
+}
+
+enum StatusEnum {
+  ACTIVE
+  PENDING
+  SUSPENDED
+}
+
+enum OrderStatus {
+  CONFIRMED
+  PREPARING
+  PICKED_UP
+  ON_WAY
+  DELIVERED
+  CANCELLED
+}
+
+enum DriverStatus {
+  ONLINE
+  OFFLINE
+  BUSY
+}
+
+enum ReconStatus {
+  OK
+  DISPUTE
+  RESOLVED
+}
+
+enum ApprovalEnum {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum DispatchStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REASSIGNED
+}
+
+enum DocType {
+  ID_CARD
+  DRIVER_LICENSE
+  VEHICLE_REGISTRATION
+}
+
+enum DocStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum NotifType {
+  ORDER_CONFIRMED
+  ORDER_PREPARING
+  DRIVER_ASSIGNED
+  ON_WAY
+  ORDER_DELIVERED
+  CASH_DISCREPANCY
+  ACCOUNT_UPDATE
+}
+
+model User {
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String
+  email     String     @unique
+  phone     String     @unique
+  role      RoleEnum
+  status    StatusEnum
+  createdAt DateTime   @default(now())
+
+  client        Client?
+  driver        Driver?
+  vendor        Vendor?
+  admin         Admin?
+  notifications Notification[]
+}
+
+model Client {
+  userId String @id @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  addresses Address[]
+  cart      Cart?
+  orders    Order[]
+  ratings   Rating[]
+}
+
+model Driver {
+  userId                String       @id @db.Uuid
+  user                  User         @relation(fields: [userId], references: [id])
+  vehicleInfo           String?
+  status                DriverStatus
+  currentLat            Float?
+  currentLng            Float?
+  totalEarningsMinor    Int          @default(0)
+  totalEarningsCurrency String       @default("USD")
+  cashCollectedMinor    Int          @default(0)
+  cashCollectedCurrency String       @default("USD")
+  idDocUrl              String?
+  licenseDocUrl         String?
+  vehicleDocUrl         String?
+  approvalStatus        ApprovalEnum
+
+  orders          Order[]
+  dispatchLogs    DispatchLog[]
+  reconciliations CashReconciliation[]
+}
+
+model Vendor {
+  userId         String  @id @db.Uuid
+  user           User    @relation(fields: [userId], references: [id])
+  name           String
+  address        String
+  lat            Float
+  lng            Float
+  isOpen         Boolean
+  rating         Float
+  deliveryRadius Float
+  commissionRate Float
+
+  menuItems MenuItem[]
+  orders    Order[]
+  carts     Cart[]
+}
+
+model Admin {
+  userId     String @id @db.Uuid
+  user       User   @relation(fields: [userId], references: [id])
+  department String
+
+  resolvedReconciliations CashReconciliation[] @relation("AdminReconciliations")
+}
+
+model Address {
+  id          String  @id @default(uuid()) @db.Uuid
+  clientId    String  @db.Uuid
+  client      Client  @relation(fields: [clientId], references: [userId])
+  label       String
+  fullAddress String
+  lat         Float
+  lng         Float
+  isDefault   Boolean
+}
+
+model Cart {
+  id        String   @id @default(uuid()) @db.Uuid
+  clientId  String   @unique @db.Uuid
+  client    Client   @relation(fields: [clientId], references: [userId])
+  vendorId  String   @db.Uuid
+  vendor    Vendor   @relation(fields: [vendorId], references: [userId])
+  createdAt DateTime @default(now())
+
+  items CartItem[]
+}
+
+model CartItem {
+  id                String   @id @default(uuid()) @db.Uuid
+  cartId            String   @db.Uuid
+  cart              Cart     @relation(fields: [cartId], references: [id])
+  menuItemId        String   @db.Uuid
+  menuItem          MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity          Int
+  unitPriceMinor    Int
+  unitPriceCurrency String
+  selectedOptions   Json
+}
+
+model Order {
+  id                      String      @id @default(uuid()) @db.Uuid
+  clientId                String      @db.Uuid
+  client                  Client      @relation(fields: [clientId], references: [userId])
+  vendorId                String      @db.Uuid
+  vendor                  Vendor      @relation(fields: [vendorId], references: [userId])
+  driverId                String?     @db.Uuid
+  driver                  Driver?     @relation(fields: [driverId], references: [userId])
+  status                  OrderStatus
+  paymentType             String      @default("CASH")
+  subtotalMinor           Int
+  subtotalCurrency        String
+  deliveryFeeMinor        Int
+  deliveryFeeCurrency     String
+  serviceFeeMinor         Int
+  serviceFeeCurrency      String
+  taxMinor                Int
+  taxCurrency             String
+  tipMinor                Int
+  tipCurrency             String
+  totalMinor              Int
+  totalCurrency           String
+  deliveryAddressSnapshot Json
+  createdAt               DateTime    @default(now())
+  confirmedAt             DateTime?
+  pickedUpAt              DateTime?
+  deliveredAt             DateTime?
+
+  items          OrderItem[]
+  dispatches     Dispatch[]
+  rating         Rating?
+  reconciliation CashReconciliation?
+}
+
+model OrderItem {
+  id                String   @id @default(uuid()) @db.Uuid
+  orderId           String   @db.Uuid
+  order             Order    @relation(fields: [orderId], references: [id])
+  menuItemId        String   @db.Uuid
+  menuItem          MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity          Int
+  unitPriceMinor    Int
+  unitPriceCurrency String
+  selectedOptions   Json
+}
+
+model MenuItem {
+  id            String  @id @default(uuid()) @db.Uuid
+  vendorId      String  @db.Uuid
+  vendor        Vendor  @relation(fields: [vendorId], references: [userId])
+  name          String
+  priceMinor    Int
+  priceCurrency String
+  category      String
+  imageUrl      String?
+  isAvailable   Boolean
+  options       Json
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model Dispatch {
+  id               String         @id @default(uuid()) @db.Uuid
+  orderId          String         @db.Uuid
+  order            Order          @relation(fields: [orderId], references: [id])
+  assignedDriverId String?        @db.Uuid
+  offeredAt        DateTime
+  expiresAt        DateTime
+  status           DispatchStatus
+
+  logs DispatchLog[]
+}
+
+model DispatchLog {
+  id         String         @id @default(uuid()) @db.Uuid
+  dispatchId String         @db.Uuid
+  dispatch   Dispatch       @relation(fields: [dispatchId], references: [id])
+  orderId    String         @db.Uuid
+  driverId   String         @db.Uuid
+  driver     Driver         @relation(fields: [driverId], references: [userId])
+  offeredAt  DateTime
+  expiresAt  DateTime
+  status     DispatchStatus
+}
+
+model Rating {
+  id           String   @id @default(uuid()) @db.Uuid
+  orderId      String   @unique @db.Uuid
+  order        Order    @relation(fields: [orderId], references: [id])
+  clientId     String   @db.Uuid
+  client       Client   @relation(fields: [clientId], references: [userId])
+  foodRating   Int
+  driverRating Int
+  comment      String?
+  createdAt    DateTime @default(now())
+}
+
+model CashReconciliation {
+  id                      String      @id @default(uuid()) @db.Uuid
+  driverId                String      @db.Uuid
+  driver                  Driver      @relation(fields: [driverId], references: [userId])
+  orderId                 String      @unique @db.Uuid
+  order                   Order       @relation(fields: [orderId], references: [id])
+  expectedAmountMinor     Int
+  expectedAmountCurrency  String
+  collectedAmountMinor    Int
+  collectedAmountCurrency String
+  discrepancyMinor        Int
+  discrepancyCurrency     String
+  status                  ReconStatus
+  resolvedBy              String?     @db.Uuid
+  admin                   Admin?      @relation("AdminReconciliations", fields: [resolvedBy], references: [userId])
+}
+
+model Notification {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  user       User      @relation(fields: [userId], references: [id])
+  type       NotifType
+  message    String
+  isRead     Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  targetRole RoleEnum
+}
