@@ -1,0 +1,2 @@
+npx nest build
+npx nest start
