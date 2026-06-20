@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './database/prisma.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { CatalogModule } from './modules/catalog/catalog.module';
 import { DispatchModule } from './modules/dispatch/dispatch.module';
@@ -10,6 +12,8 @@ import { TrackingModule } from './modules/tracking/tracking.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    PrismaModule,
     IdentityModule,
     CatalogModule,
     OrderModule,

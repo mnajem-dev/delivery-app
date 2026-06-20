@@ -11,7 +11,7 @@ export declare enum DriverStatus {
     OFFLINE = "OFFLINE"
 }
 export declare enum RoleEnum {
-    CUSTOMER = "CUSTOMER",
+    CLIENT = "CLIENT",
     DRIVER = "DRIVER",
     VENDOR = "VENDOR",
     ADMIN = "ADMIN"

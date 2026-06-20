@@ -17,7 +17,7 @@ var DriverStatus;
 })(DriverStatus || (exports.DriverStatus = DriverStatus = {}));
 var RoleEnum;
 (function (RoleEnum) {
-    RoleEnum["CUSTOMER"] = "CUSTOMER";
+    RoleEnum["CLIENT"] = "CLIENT";
     RoleEnum["DRIVER"] = "DRIVER";
     RoleEnum["VENDOR"] = "VENDOR";
     RoleEnum["ADMIN"] = "ADMIN";

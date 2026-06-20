@@ -13,7 +13,7 @@ export enum DriverStatus {
 }
 
 export enum RoleEnum {
-  CUSTOMER = 'CUSTOMER',
+  CLIENT = 'CLIENT',
   DRIVER = 'DRIVER',
   VENDOR = 'VENDOR',
   ADMIN = 'ADMIN',
