@@ -139,6 +139,7 @@ model Vendor {
   rating         Float
   deliveryRadius Float
   commissionRate Float
+  logoUrl        String?
 
   menuItems MenuItem[]
   orders    Order[]
