@@ -134,7 +134,8 @@ export const VendorScalarFieldEnum = {
   isOpen: 'isOpen',
   rating: 'rating',
   deliveryRadius: 'deliveryRadius',
-  commissionRate: 'commissionRate'
+  commissionRate: 'commissionRate',
+  logoUrl: 'logoUrl'
 } as const
 
 export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
