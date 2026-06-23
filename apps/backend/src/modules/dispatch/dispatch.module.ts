@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { OrderPlacedListener } from './listeners/order-placed.listener';
 
-@Module({})
+@Module({
+  providers: [OrderPlacedListener],
+})
 export class DispatchModule {}
