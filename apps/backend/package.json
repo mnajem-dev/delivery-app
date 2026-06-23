@@ -6,7 +6,21 @@
     "build": "prisma generate && nest build",
     "start:dev": "nest start --watch",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": ["**/*.(t|j)s"],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1073.0",
@@ -32,13 +46,17 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.16",
+    "@nestjs/testing": "^11.1.27",
     "@types/bcrypt": "^6.0.0",
+    "@types/jest": "^30.0.0",
     "@types/multer": "^2.1.0",
     "@types/node": "^25.9.3",
     "@types/passport-jwt": "^4.0.1",
     "@types/pg": "^8.15.5",
     "dotenv": "^17.4.2",
+    "jest": "^30.4.2",
     "prisma": "^7.8.0",
+    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   }
