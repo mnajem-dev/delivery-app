@@ -4,8 +4,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { OrderStatus } from '../../database/generated/prisma/client';
 import { PrismaService } from '../../database/prisma.service';
+import { EVENTS } from '../../common/events/events';
+import { OrderPlacedEvent } from '../../common/events/order-placed.event';
 import { CreateOrderDto } from './dto/create-order.dto';
 
 const PAYMENT_TYPE = 'CASH_ON_DELIVERY';
@@ -19,7 +22,10 @@ function addMoney(...amounts: Money[]): Money {
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly emitter: EventEmitter2,
+  ) {}
 
   async createOrder(clientId: string, dto: CreateOrderDto) {
     // 1. Load cart with items
@@ -69,8 +75,8 @@ export class OrderService {
     const now = new Date();
 
     // 4. Create order + items, then clear cart — all in one transaction
-    return this.prisma.$transaction(async (tx) => {
-      const order = await tx.order.create({
+    const order = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.order.create({
         data: {
           clientId,
           vendorId: cart.vendorId,
@@ -103,12 +109,25 @@ export class OrderService {
         include: { items: { include: { menuItem: true } } },
       });
 
-      // Clear cart
       await tx.cartItem.deleteMany({ where: { cartId: cart.id } });
       await tx.cart.delete({ where: { id: cart.id } });
 
-      return order;
+      return created;
     });
+
+    // 5. Publish event — dispatch and notification must listen, never called directly
+    this.emitter.emit(
+      EVENTS.ORDER_PLACED,
+      new OrderPlacedEvent(
+        order.id,
+        clientId,
+        cart.vendorId,
+        totalMinor,
+        currency,
+      ),
+    );
+
+    return order;
   }
 
   listOrders(clientId: string) {
