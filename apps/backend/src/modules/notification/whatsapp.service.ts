@@ -4,8 +4,8 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class WhatsappService {
   private readonly logger = new Logger(WhatsappService.name);
-  private readonly accessToken: string;
-  private readonly phoneNumberId: string;
+  private readonly accessToken?: string;
+  private readonly phoneNumberId?: string;
   private readonly apiVersion: string;
 
   constructor(private readonly configService: ConfigService) {

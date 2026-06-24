@@ -6,14 +6,27 @@ import {
   DRIVER_ASSIGNED,
   ORDER_DELIVERED,
 } from '../../common/events/events';
+import { FcmService } from './fcm.service';
+import { WhatsappService } from './whatsapp.service';
 
 describe('NotificationService', () => {
   let service: NotificationService;
   let loggerLogSpy: jest.SpyInstance;
 
   beforeEach(async () => {
+    const mockFcmService = {
+      sendPushNotification: jest.fn().mockResolvedValue('ok'),
+    };
+    const mockWhatsappService = {
+      sendTextMessage: jest.fn().mockResolvedValue('ok'),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
-      providers: [NotificationService],
+      providers: [
+        NotificationService,
+        { provide: FcmService, useValue: mockFcmService },
+        { provide: WhatsappService, useValue: mockWhatsappService },
+      ],
     }).compile();
 
     service = module.get<NotificationService>(NotificationService);
