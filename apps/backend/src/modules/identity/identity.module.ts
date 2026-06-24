@@ -6,6 +6,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { IdentityController } from './identity.controller';
 import { IdentityService } from './identity.service';
+import { OtpProviderService } from './services/otp-provider.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
@@ -25,6 +26,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   controllers: [IdentityController],
   providers: [
     IdentityService,
+    OtpProviderService,
     JwtStrategy,
     JwtAuthGuard,
     RolesGuard,

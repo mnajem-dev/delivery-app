@@ -4,6 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma, RoleEnum, StatusEnum } from '../../database/generated/prisma/client';
 import { PrismaService } from '../../database/prisma.service';
 import { IdentityService } from './identity.service';
+import { OtpProviderService } from './services/otp-provider.service';
 
 // Mock bcrypt before any imports that use it
 jest.mock('bcrypt', () => ({
@@ -66,6 +67,7 @@ describe('IdentityService', () => {
         IdentityService,
         { provide: PrismaService, useValue: prisma },
         { provide: JwtService, useValue: jwt },
+        { provide: OtpProviderService, useValue: { sendOtp: jest.fn(), verifyOtp: jest.fn() } },
       ],
     }).compile();
 

@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  OtpRequest: 'OtpRequest',
   User: 'User',
   Client: 'Client',
   Driver: 'Driver',
@@ -83,6 +84,19 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const OtpRequestScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  phone: 'phone',
+  attempts: 'attempts',
+  blockedUntil: 'blockedUntil',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OtpRequestScalarFieldEnum = (typeof OtpRequestScalarFieldEnum)[keyof typeof OtpRequestScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

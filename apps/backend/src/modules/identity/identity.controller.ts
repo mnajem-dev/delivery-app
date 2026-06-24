@@ -10,6 +10,8 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { Roles } from './decorators/roles.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { RequestOtpDto } from './dto/request-otp.dto';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { IdentityService } from './identity.service';
@@ -27,6 +29,16 @@ export class IdentityController {
   @Post('login')
   login(@Body() dto: LoginDto) {
     return this.identityService.login(dto);
+  }
+
+  @Post('otp/request')
+  requestOtp(@Body() dto: RequestOtpDto) {
+    return this.identityService.requestOtp(dto);
+  }
+
+  @Post('otp/verify')
+  verifyOtp(@Body() dto: VerifyOtpDto) {
+    return this.identityService.verifyOtp(dto);
   }
 
   @Get('me')
