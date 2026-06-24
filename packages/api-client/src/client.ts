@@ -2,13 +2,15 @@ export function createApiClient(baseUrl: string, token?: string) {
   const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 
   async function request<T>(path: string, init?: RequestInit): Promise<T> {
-    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+    const headers: Record<string, string> = token
+      ? { Authorization: `Bearer ${token}` }
+      : {};
+    if (init?.headers) {
+      Object.assign(headers, init.headers);
+    }
     const response = await fetch(`${normalizedBaseUrl}${path}`, {
       ...init,
-      headers: {
-        ...authHeader,
-        ...init?.headers,
-      },
+      headers,
     });
 
     if (!response.ok) {
