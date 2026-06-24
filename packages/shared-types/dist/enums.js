@@ -3,15 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleEnum = exports.DriverStatus = exports.OrderStatus = void 0;
 var OrderStatus;
 (function (OrderStatus) {
-    OrderStatus["PENDING"] = "PENDING";
     OrderStatus["CONFIRMED"] = "CONFIRMED";
+    OrderStatus["PREPARING"] = "PREPARING";
     OrderStatus["PICKED_UP"] = "PICKED_UP";
+    OrderStatus["ON_WAY"] = "ON_WAY";
     OrderStatus["DELIVERED"] = "DELIVERED";
     OrderStatus["CANCELLED"] = "CANCELLED";
 })(OrderStatus || (exports.OrderStatus = OrderStatus = {}));
 var DriverStatus;
 (function (DriverStatus) {
-    DriverStatus["AVAILABLE"] = "AVAILABLE";
+    DriverStatus["ONLINE"] = "ONLINE";
     DriverStatus["BUSY"] = "BUSY";
     DriverStatus["OFFLINE"] = "OFFLINE";
 })(DriverStatus || (exports.DriverStatus = DriverStatus = {}));

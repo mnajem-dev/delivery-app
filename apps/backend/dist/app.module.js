@@ -9,7 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+const event_emitter_1 = require("@nestjs/event-emitter");
 const prisma_module_1 = require("./database/prisma.module");
+const address_module_1 = require("./modules/address/address.module");
 const admin_module_1 = require("./modules/admin/admin.module");
 const catalog_module_1 = require("./modules/catalog/catalog.module");
 const dispatch_module_1 = require("./modules/dispatch/dispatch.module");
@@ -25,8 +27,10 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ isGlobal: true }),
+            event_emitter_1.EventEmitterModule.forRoot(),
             prisma_module_1.PrismaModule,
             identity_module_1.IdentityModule,
+            address_module_1.AddressModule,
             catalog_module_1.CatalogModule,
             order_module_1.OrderModule,
             dispatch_module_1.DispatchModule,

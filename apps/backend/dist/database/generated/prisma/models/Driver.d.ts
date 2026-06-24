@@ -486,21 +486,11 @@ export type DriverUncheckedUpdateOneWithoutUserNestedInput = {
     connect?: Prisma.DriverWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.DriverUpdateToOneWithWhereWithoutUserInput, Prisma.DriverUpdateWithoutUserInput>, Prisma.DriverUncheckedUpdateWithoutUserInput>;
 };
-export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null;
-};
 export type EnumDriverStatusFieldUpdateOperationsInput = {
     set?: $Enums.DriverStatus;
 };
 export type NullableFloatFieldUpdateOperationsInput = {
     set?: number | null;
-    increment?: number;
-    decrement?: number;
-    multiply?: number;
-    divide?: number;
-};
-export type IntFieldUpdateOperationsInput = {
-    set?: number;
     increment?: number;
     decrement?: number;
     multiply?: number;

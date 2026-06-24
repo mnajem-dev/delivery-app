@@ -816,9 +816,6 @@ export type OrderUncheckedUpdateManyWithoutVendorNestedInput = {
 export type EnumOrderStatusFieldUpdateOperationsInput = {
     set?: $Enums.OrderStatus;
 };
-export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null;
-};
 export type OrderCreateNestedOneWithoutItemsInput = {
     create?: Prisma.XOR<Prisma.OrderCreateWithoutItemsInput, Prisma.OrderUncheckedCreateWithoutItemsInput>;
     connectOrCreate?: Prisma.OrderCreateOrConnectWithoutItemsInput;

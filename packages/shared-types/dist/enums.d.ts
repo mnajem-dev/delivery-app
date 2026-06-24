@@ -1,12 +1,13 @@
 export declare enum OrderStatus {
-    PENDING = "PENDING",
     CONFIRMED = "CONFIRMED",
+    PREPARING = "PREPARING",
     PICKED_UP = "PICKED_UP",
+    ON_WAY = "ON_WAY",
     DELIVERED = "DELIVERED",
     CANCELLED = "CANCELLED"
 }
 export declare enum DriverStatus {
-    AVAILABLE = "AVAILABLE",
+    ONLINE = "ONLINE",
     BUSY = "BUSY",
     OFFLINE = "OFFLINE"
 }

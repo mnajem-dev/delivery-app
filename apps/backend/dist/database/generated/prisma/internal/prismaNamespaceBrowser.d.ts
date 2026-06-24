@@ -11,6 +11,7 @@ export declare const DbNull: import("@prisma/client/runtime/client").DbNullClass
 export declare const JsonNull: import("@prisma/client/runtime/client").JsonNullClass;
 export declare const AnyNull: import("@prisma/client/runtime/client").AnyNullClass;
 export declare const ModelName: {
+    readonly OtpRequest: "OtpRequest";
     readonly User: "User";
     readonly Client: "Client";
     readonly Driver: "Driver";
@@ -36,6 +37,16 @@ export declare const TransactionIsolationLevel: {
     readonly Serializable: "Serializable";
 };
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
+export declare const OtpRequestScalarFieldEnum: {
+    readonly id: "id";
+    readonly requestId: "requestId";
+    readonly phone: "phone";
+    readonly attempts: "attempts";
+    readonly blockedUntil: "blockedUntil";
+    readonly expiresAt: "expiresAt";
+    readonly createdAt: "createdAt";
+};
+export type OtpRequestScalarFieldEnum = (typeof OtpRequestScalarFieldEnum)[keyof typeof OtpRequestScalarFieldEnum];
 export declare const UserScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";
@@ -77,6 +88,7 @@ export declare const VendorScalarFieldEnum: {
     readonly rating: "rating";
     readonly deliveryRadius: "deliveryRadius";
     readonly commissionRate: "commissionRate";
+    readonly logoUrl: "logoUrl";
 };
 export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum];
 export declare const AdminScalarFieldEnum: {

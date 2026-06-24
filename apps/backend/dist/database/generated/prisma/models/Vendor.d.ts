@@ -32,6 +32,7 @@ export type VendorMinAggregateOutputType = {
     rating: number | null;
     deliveryRadius: number | null;
     commissionRate: number | null;
+    logoUrl: string | null;
 };
 export type VendorMaxAggregateOutputType = {
     userId: string | null;
@@ -43,6 +44,7 @@ export type VendorMaxAggregateOutputType = {
     rating: number | null;
     deliveryRadius: number | null;
     commissionRate: number | null;
+    logoUrl: string | null;
 };
 export type VendorCountAggregateOutputType = {
     userId: number;
@@ -54,6 +56,7 @@ export type VendorCountAggregateOutputType = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl: number;
     _all: number;
 };
 export type VendorAvgAggregateInputType = {
@@ -80,6 +83,7 @@ export type VendorMinAggregateInputType = {
     rating?: true;
     deliveryRadius?: true;
     commissionRate?: true;
+    logoUrl?: true;
 };
 export type VendorMaxAggregateInputType = {
     userId?: true;
@@ -91,6 +95,7 @@ export type VendorMaxAggregateInputType = {
     rating?: true;
     deliveryRadius?: true;
     commissionRate?: true;
+    logoUrl?: true;
 };
 export type VendorCountAggregateInputType = {
     userId?: true;
@@ -102,6 +107,7 @@ export type VendorCountAggregateInputType = {
     rating?: true;
     deliveryRadius?: true;
     commissionRate?: true;
+    logoUrl?: true;
     _all?: true;
 };
 export type VendorAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -142,6 +148,7 @@ export type VendorGroupByOutputType = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl: string | null;
     _count: VendorCountAggregateOutputType | null;
     _avg: VendorAvgAggregateOutputType | null;
     _sum: VendorSumAggregateOutputType | null;
@@ -164,6 +171,7 @@ export type VendorWhereInput = {
     rating?: Prisma.FloatFilter<"Vendor"> | number;
     deliveryRadius?: Prisma.FloatFilter<"Vendor"> | number;
     commissionRate?: Prisma.FloatFilter<"Vendor"> | number;
+    logoUrl?: Prisma.StringNullableFilter<"Vendor"> | string | null;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     menuItems?: Prisma.MenuItemListRelationFilter;
     orders?: Prisma.OrderListRelationFilter;
@@ -179,6 +187,7 @@ export type VendorOrderByWithRelationInput = {
     rating?: Prisma.SortOrder;
     deliveryRadius?: Prisma.SortOrder;
     commissionRate?: Prisma.SortOrder;
+    logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     user?: Prisma.UserOrderByWithRelationInput;
     menuItems?: Prisma.MenuItemOrderByRelationAggregateInput;
     orders?: Prisma.OrderOrderByRelationAggregateInput;
@@ -197,6 +206,7 @@ export type VendorWhereUniqueInput = Prisma.AtLeast<{
     rating?: Prisma.FloatFilter<"Vendor"> | number;
     deliveryRadius?: Prisma.FloatFilter<"Vendor"> | number;
     commissionRate?: Prisma.FloatFilter<"Vendor"> | number;
+    logoUrl?: Prisma.StringNullableFilter<"Vendor"> | string | null;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     menuItems?: Prisma.MenuItemListRelationFilter;
     orders?: Prisma.OrderListRelationFilter;
@@ -212,6 +222,7 @@ export type VendorOrderByWithAggregationInput = {
     rating?: Prisma.SortOrder;
     deliveryRadius?: Prisma.SortOrder;
     commissionRate?: Prisma.SortOrder;
+    logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     _count?: Prisma.VendorCountOrderByAggregateInput;
     _avg?: Prisma.VendorAvgOrderByAggregateInput;
     _max?: Prisma.VendorMaxOrderByAggregateInput;
@@ -231,6 +242,7 @@ export type VendorScalarWhereWithAggregatesInput = {
     rating?: Prisma.FloatWithAggregatesFilter<"Vendor"> | number;
     deliveryRadius?: Prisma.FloatWithAggregatesFilter<"Vendor"> | number;
     commissionRate?: Prisma.FloatWithAggregatesFilter<"Vendor"> | number;
+    logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Vendor"> | string | null;
 };
 export type VendorCreateInput = {
     name: string;
@@ -241,6 +253,7 @@ export type VendorCreateInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     user: Prisma.UserCreateNestedOneWithoutVendorInput;
     menuItems?: Prisma.MenuItemCreateNestedManyWithoutVendorInput;
     orders?: Prisma.OrderCreateNestedManyWithoutVendorInput;
@@ -256,6 +269,7 @@ export type VendorUncheckedCreateInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutVendorInput;
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutVendorInput;
     carts?: Prisma.CartUncheckedCreateNestedManyWithoutVendorInput;
@@ -269,6 +283,7 @@ export type VendorUpdateInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     user?: Prisma.UserUpdateOneRequiredWithoutVendorNestedInput;
     menuItems?: Prisma.MenuItemUpdateManyWithoutVendorNestedInput;
     orders?: Prisma.OrderUpdateManyWithoutVendorNestedInput;
@@ -284,6 +299,7 @@ export type VendorUncheckedUpdateInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutVendorNestedInput;
     orders?: Prisma.OrderUncheckedUpdateManyWithoutVendorNestedInput;
     carts?: Prisma.CartUncheckedUpdateManyWithoutVendorNestedInput;
@@ -298,6 +314,7 @@ export type VendorCreateManyInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
 };
 export type VendorUpdateManyMutationInput = {
     name?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -308,6 +325,7 @@ export type VendorUpdateManyMutationInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type VendorUncheckedUpdateManyInput = {
     userId?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -319,6 +337,7 @@ export type VendorUncheckedUpdateManyInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type VendorNullableScalarRelationFilter = {
     is?: Prisma.VendorWhereInput | null;
@@ -334,6 +353,7 @@ export type VendorCountOrderByAggregateInput = {
     rating?: Prisma.SortOrder;
     deliveryRadius?: Prisma.SortOrder;
     commissionRate?: Prisma.SortOrder;
+    logoUrl?: Prisma.SortOrder;
 };
 export type VendorAvgOrderByAggregateInput = {
     lat?: Prisma.SortOrder;
@@ -352,6 +372,7 @@ export type VendorMaxOrderByAggregateInput = {
     rating?: Prisma.SortOrder;
     deliveryRadius?: Prisma.SortOrder;
     commissionRate?: Prisma.SortOrder;
+    logoUrl?: Prisma.SortOrder;
 };
 export type VendorMinOrderByAggregateInput = {
     userId?: Prisma.SortOrder;
@@ -363,6 +384,7 @@ export type VendorMinOrderByAggregateInput = {
     rating?: Prisma.SortOrder;
     deliveryRadius?: Prisma.SortOrder;
     commissionRate?: Prisma.SortOrder;
+    logoUrl?: Prisma.SortOrder;
 };
 export type VendorSumOrderByAggregateInput = {
     lat?: Prisma.SortOrder;
@@ -458,6 +480,7 @@ export type VendorCreateWithoutUserInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     menuItems?: Prisma.MenuItemCreateNestedManyWithoutVendorInput;
     orders?: Prisma.OrderCreateNestedManyWithoutVendorInput;
     carts?: Prisma.CartCreateNestedManyWithoutVendorInput;
@@ -471,6 +494,7 @@ export type VendorUncheckedCreateWithoutUserInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutVendorInput;
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutVendorInput;
     carts?: Prisma.CartUncheckedCreateNestedManyWithoutVendorInput;
@@ -497,6 +521,7 @@ export type VendorUpdateWithoutUserInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     menuItems?: Prisma.MenuItemUpdateManyWithoutVendorNestedInput;
     orders?: Prisma.OrderUpdateManyWithoutVendorNestedInput;
     carts?: Prisma.CartUpdateManyWithoutVendorNestedInput;
@@ -510,6 +535,7 @@ export type VendorUncheckedUpdateWithoutUserInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutVendorNestedInput;
     orders?: Prisma.OrderUncheckedUpdateManyWithoutVendorNestedInput;
     carts?: Prisma.CartUncheckedUpdateManyWithoutVendorNestedInput;
@@ -523,6 +549,7 @@ export type VendorCreateWithoutCartsInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     user: Prisma.UserCreateNestedOneWithoutVendorInput;
     menuItems?: Prisma.MenuItemCreateNestedManyWithoutVendorInput;
     orders?: Prisma.OrderCreateNestedManyWithoutVendorInput;
@@ -537,6 +564,7 @@ export type VendorUncheckedCreateWithoutCartsInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutVendorInput;
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutVendorInput;
 };
@@ -562,6 +590,7 @@ export type VendorUpdateWithoutCartsInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     user?: Prisma.UserUpdateOneRequiredWithoutVendorNestedInput;
     menuItems?: Prisma.MenuItemUpdateManyWithoutVendorNestedInput;
     orders?: Prisma.OrderUpdateManyWithoutVendorNestedInput;
@@ -576,6 +605,7 @@ export type VendorUncheckedUpdateWithoutCartsInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutVendorNestedInput;
     orders?: Prisma.OrderUncheckedUpdateManyWithoutVendorNestedInput;
 };
@@ -588,6 +618,7 @@ export type VendorCreateWithoutOrdersInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     user: Prisma.UserCreateNestedOneWithoutVendorInput;
     menuItems?: Prisma.MenuItemCreateNestedManyWithoutVendorInput;
     carts?: Prisma.CartCreateNestedManyWithoutVendorInput;
@@ -602,6 +633,7 @@ export type VendorUncheckedCreateWithoutOrdersInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutVendorInput;
     carts?: Prisma.CartUncheckedCreateNestedManyWithoutVendorInput;
 };
@@ -627,6 +659,7 @@ export type VendorUpdateWithoutOrdersInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     user?: Prisma.UserUpdateOneRequiredWithoutVendorNestedInput;
     menuItems?: Prisma.MenuItemUpdateManyWithoutVendorNestedInput;
     carts?: Prisma.CartUpdateManyWithoutVendorNestedInput;
@@ -641,6 +674,7 @@ export type VendorUncheckedUpdateWithoutOrdersInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutVendorNestedInput;
     carts?: Prisma.CartUncheckedUpdateManyWithoutVendorNestedInput;
 };
@@ -653,6 +687,7 @@ export type VendorCreateWithoutMenuItemsInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     user: Prisma.UserCreateNestedOneWithoutVendorInput;
     orders?: Prisma.OrderCreateNestedManyWithoutVendorInput;
     carts?: Prisma.CartCreateNestedManyWithoutVendorInput;
@@ -667,6 +702,7 @@ export type VendorUncheckedCreateWithoutMenuItemsInput = {
     rating: number;
     deliveryRadius: number;
     commissionRate: number;
+    logoUrl?: string | null;
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutVendorInput;
     carts?: Prisma.CartUncheckedCreateNestedManyWithoutVendorInput;
 };
@@ -692,6 +728,7 @@ export type VendorUpdateWithoutMenuItemsInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     user?: Prisma.UserUpdateOneRequiredWithoutVendorNestedInput;
     orders?: Prisma.OrderUpdateManyWithoutVendorNestedInput;
     carts?: Prisma.CartUpdateManyWithoutVendorNestedInput;
@@ -706,6 +743,7 @@ export type VendorUncheckedUpdateWithoutMenuItemsInput = {
     rating?: Prisma.FloatFieldUpdateOperationsInput | number;
     deliveryRadius?: Prisma.FloatFieldUpdateOperationsInput | number;
     commissionRate?: Prisma.FloatFieldUpdateOperationsInput | number;
+    logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     orders?: Prisma.OrderUncheckedUpdateManyWithoutVendorNestedInput;
     carts?: Prisma.CartUncheckedUpdateManyWithoutVendorNestedInput;
 };
@@ -741,6 +779,7 @@ export type VendorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     rating?: boolean;
     deliveryRadius?: boolean;
     commissionRate?: boolean;
+    logoUrl?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     menuItems?: boolean | Prisma.Vendor$menuItemsArgs<ExtArgs>;
     orders?: boolean | Prisma.Vendor$ordersArgs<ExtArgs>;
@@ -757,6 +796,7 @@ export type VendorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
     rating?: boolean;
     deliveryRadius?: boolean;
     commissionRate?: boolean;
+    logoUrl?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["vendor"]>;
 export type VendorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -769,6 +809,7 @@ export type VendorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
     rating?: boolean;
     deliveryRadius?: boolean;
     commissionRate?: boolean;
+    logoUrl?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["vendor"]>;
 export type VendorSelectScalar = {
@@ -781,8 +822,9 @@ export type VendorSelectScalar = {
     rating?: boolean;
     deliveryRadius?: boolean;
     commissionRate?: boolean;
+    logoUrl?: boolean;
 };
-export type VendorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "name" | "address" | "lat" | "lng" | "isOpen" | "rating" | "deliveryRadius" | "commissionRate", ExtArgs["result"]["vendor"]>;
+export type VendorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "name" | "address" | "lat" | "lng" | "isOpen" | "rating" | "deliveryRadius" | "commissionRate" | "logoUrl", ExtArgs["result"]["vendor"]>;
 export type VendorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     menuItems?: boolean | Prisma.Vendor$menuItemsArgs<ExtArgs>;
@@ -814,6 +856,7 @@ export type $VendorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
         rating: number;
         deliveryRadius: number;
         commissionRate: number;
+        logoUrl: string | null;
     }, ExtArgs["result"]["vendor"]>;
     composites: {};
 };
@@ -884,6 +927,7 @@ export interface VendorFieldRefs {
     readonly rating: Prisma.FieldRef<"Vendor", 'Float'>;
     readonly deliveryRadius: Prisma.FieldRef<"Vendor", 'Float'>;
     readonly commissionRate: Prisma.FieldRef<"Vendor", 'Float'>;
+    readonly logoUrl: Prisma.FieldRef<"Vendor", 'String'>;
 }
 export type VendorFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     select?: Prisma.VendorSelect<ExtArgs> | null;

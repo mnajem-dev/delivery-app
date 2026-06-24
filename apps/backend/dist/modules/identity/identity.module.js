@@ -15,6 +15,7 @@ const jwt_auth_guard_1 = require("./guards/jwt-auth.guard");
 const roles_guard_1 = require("./guards/roles.guard");
 const identity_controller_1 = require("./identity.controller");
 const identity_service_1 = require("./identity.service");
+const otp_provider_service_1 = require("./services/otp-provider.service");
 const jwt_strategy_1 = require("./strategies/jwt.strategy");
 let IdentityModule = class IdentityModule {
 };
@@ -37,6 +38,7 @@ exports.IdentityModule = IdentityModule = __decorate([
         controllers: [identity_controller_1.IdentityController],
         providers: [
             identity_service_1.IdentityService,
+            otp_provider_service_1.OtpProviderService,
             jwt_strategy_1.JwtStrategy,
             jwt_auth_guard_1.JwtAuthGuard,
             roles_guard_1.RolesGuard,

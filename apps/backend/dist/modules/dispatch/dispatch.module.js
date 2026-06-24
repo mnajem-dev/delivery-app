@@ -8,10 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DispatchModule = void 0;
 const common_1 = require("@nestjs/common");
+const order_placed_listener_1 = require("./listeners/order-placed.listener");
 let DispatchModule = class DispatchModule {
 };
 exports.DispatchModule = DispatchModule;
 exports.DispatchModule = DispatchModule = __decorate([
-    (0, common_1.Module)({})
+    (0, common_1.Module)({
+        providers: [order_placed_listener_1.OrderPlacedListener],
+    })
 ], DispatchModule);
 //# sourceMappingURL=dispatch.module.js.map

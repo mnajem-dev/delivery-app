@@ -20,6 +20,31 @@ export interface RegisterDto {
   department?: string;
 }
 
+export interface AddressDto {
+  id: string;
+  clientId: string;
+  label: string;
+  fullAddress: string;
+  lat: number;
+  lng: number;
+  isDefault: boolean;
+}
+
+export interface CreateAddressDto {
+  label: string;
+  fullAddress: string;
+  lat: number;
+  lng: number;
+  isDefault?: boolean;
+}
+
+export interface UpdateAddressDto {
+  label?: string;
+  fullAddress?: string;
+  lat?: number;
+  lng?: number;
+}
+
 export interface CreateOrderDto {
   deliveryAddressId: string;
   tipMinor?: number;

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PrismaModule } from './database/prisma.module';
+import { AddressModule } from './modules/address/address.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { CatalogModule } from './modules/catalog/catalog.module';
 import { DispatchModule } from './modules/dispatch/dispatch.module';
@@ -17,6 +18,7 @@ import { TrackingModule } from './modules/tracking/tracking.module';
     EventEmitterModule.forRoot(),
     PrismaModule,
     IdentityModule,
+    AddressModule,
     CatalogModule,
     OrderModule,
     DispatchModule,

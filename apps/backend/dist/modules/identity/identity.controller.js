@@ -19,6 +19,8 @@ const current_user_decorator_1 = require("./decorators/current-user.decorator");
 const roles_decorator_1 = require("./decorators/roles.decorator");
 const login_dto_1 = require("./dto/login.dto");
 const register_dto_1 = require("./dto/register.dto");
+const request_otp_dto_1 = require("./dto/request-otp.dto");
+const verify_otp_dto_1 = require("./dto/verify-otp.dto");
 const jwt_auth_guard_1 = require("./guards/jwt-auth.guard");
 const roles_guard_1 = require("./guards/roles.guard");
 const identity_service_1 = require("./identity.service");
@@ -31,6 +33,12 @@ let IdentityController = class IdentityController {
     }
     login(dto) {
         return this.identityService.login(dto);
+    }
+    requestOtp(dto) {
+        return this.identityService.requestOtp(dto);
+    }
+    verifyOtp(dto) {
+        return this.identityService.verifyOtp(dto);
     }
     me(user) {
         return this.identityService.getProfile(user.sub);
@@ -57,6 +65,20 @@ __decorate([
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
     __metadata("design:returntype", void 0)
 ], IdentityController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('otp/request'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [request_otp_dto_1.RequestOtpDto]),
+    __metadata("design:returntype", void 0)
+], IdentityController.prototype, "requestOtp", null);
+__decorate([
+    (0, common_1.Post)('otp/verify'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [verify_otp_dto_1.VerifyOtpDto]),
+    __metadata("design:returntype", void 0)
+], IdentityController.prototype, "verifyOtp", null);
 __decorate([
     (0, common_1.Get)('me'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
