@@ -157,6 +157,7 @@ export type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? n
 export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>;
 type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>;
 export declare const ModelName: {
+    readonly OtpRequest: "OtpRequest";
     readonly User: "User";
     readonly Client: "Client";
     readonly Driver: "Driver";
@@ -185,10 +186,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "user" | "client" | "driver" | "vendor" | "admin" | "address" | "cart" | "cartItem" | "order" | "orderItem" | "menuItem" | "dispatch" | "dispatchLog" | "rating" | "cashReconciliation" | "notification";
+        modelProps: "otpRequest" | "user" | "client" | "driver" | "vendor" | "admin" | "address" | "cart" | "cartItem" | "order" | "orderItem" | "menuItem" | "dispatch" | "dispatchLog" | "rating" | "cashReconciliation" | "notification";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
+        OtpRequest: {
+            payload: Prisma.$OtpRequestPayload<ExtArgs>;
+            fields: Prisma.OtpRequestFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.OtpRequestFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.OtpRequestFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>;
+                };
+                findFirst: {
+                    args: Prisma.OtpRequestFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.OtpRequestFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>;
+                };
+                findMany: {
+                    args: Prisma.OtpRequestFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>[];
+                };
+                create: {
+                    args: Prisma.OtpRequestCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>;
+                };
+                createMany: {
+                    args: Prisma.OtpRequestCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.OtpRequestCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>[];
+                };
+                delete: {
+                    args: Prisma.OtpRequestDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>;
+                };
+                update: {
+                    args: Prisma.OtpRequestUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>;
+                };
+                deleteMany: {
+                    args: Prisma.OtpRequestDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.OtpRequestUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.OtpRequestUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>[];
+                };
+                upsert: {
+                    args: Prisma.OtpRequestUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>;
+                };
+                aggregate: {
+                    args: Prisma.OtpRequestAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateOtpRequest>;
+                };
+                groupBy: {
+                    args: Prisma.OtpRequestGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.OtpRequestGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.OtpRequestCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.OtpRequestCountAggregateOutputType> | number;
+                };
+            };
+        };
         User: {
             payload: Prisma.$UserPayload<ExtArgs>;
             fields: Prisma.UserFieldRefs;
@@ -1404,6 +1479,16 @@ export declare const TransactionIsolationLevel: {
     readonly Serializable: "Serializable";
 };
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
+export declare const OtpRequestScalarFieldEnum: {
+    readonly id: "id";
+    readonly requestId: "requestId";
+    readonly phone: "phone";
+    readonly attempts: "attempts";
+    readonly blockedUntil: "blockedUntil";
+    readonly expiresAt: "expiresAt";
+    readonly createdAt: "createdAt";
+};
+export type OtpRequestScalarFieldEnum = (typeof OtpRequestScalarFieldEnum)[keyof typeof OtpRequestScalarFieldEnum];
 export declare const UserScalarFieldEnum: {
     readonly id: "id";
     readonly name: "name";
@@ -1445,6 +1530,7 @@ export declare const VendorScalarFieldEnum: {
     readonly rating: "rating";
     readonly deliveryRadius: "deliveryRadius";
     readonly commissionRate: "commissionRate";
+    readonly logoUrl: "logoUrl";
 };
 export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum];
 export declare const AdminScalarFieldEnum: {
@@ -1607,18 +1693,18 @@ export declare const JsonNullValueFilter: {
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>;
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>;
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>;
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>;
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>;
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>;
 export type EnumRoleEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleEnum'>;
 export type ListEnumRoleEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleEnum[]'>;
 export type EnumStatusEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusEnum'>;
 export type ListEnumStatusEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusEnum[]'>;
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>;
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>;
 export type EnumDriverStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DriverStatus'>;
 export type ListEnumDriverStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DriverStatus[]'>;
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>;
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>;
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>;
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>;
 export type EnumApprovalEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalEnum'>;
 export type ListEnumApprovalEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalEnum[]'>;
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>;
@@ -1657,6 +1743,7 @@ export type PrismaClientOptions = ({
     queryPlanCacheMaxSize?: number;
 };
 export type GlobalOmitConfig = {
+    otpRequest?: Prisma.OtpRequestOmit;
     user?: Prisma.UserOmit;
     client?: Prisma.ClientOmit;
     driver?: Prisma.DriverOmit;
