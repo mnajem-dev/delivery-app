@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model OtpRequest
+ * 
+ */
+export type OtpRequest = Prisma.OtpRequestModel
+/**
  * Model User
  * 
  */

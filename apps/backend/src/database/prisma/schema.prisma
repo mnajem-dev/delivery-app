@@ -80,12 +80,24 @@ enum NotifType {
   ACCOUNT_UPDATE
 }
 
+model OtpRequest {
+  id           String    @id @default(uuid()) @db.Uuid
+  requestId    String    @unique
+  phone        String
+  attempts     Int       @default(0)
+  blockedUntil DateTime?
+  expiresAt    DateTime
+  createdAt    DateTime  @default(now())
+
+  @@index([phone])
+}
+
 model User {
   id           String     @id @default(uuid()) @db.Uuid
   name         String
-  email        String     @unique
+  email        String?    @unique
   phone        String     @unique
-  passwordHash String
+  passwordHash String?
   role         RoleEnum
   status       StatusEnum
   createdAt    DateTime   @default(now())

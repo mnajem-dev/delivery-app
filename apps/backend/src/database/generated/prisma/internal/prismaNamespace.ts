@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  OtpRequest: 'OtpRequest',
   User: 'User',
   Client: 'Client',
   Driver: 'Driver',
@@ -415,10 +416,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "client" | "driver" | "vendor" | "admin" | "address" | "cart" | "cartItem" | "order" | "orderItem" | "menuItem" | "dispatch" | "dispatchLog" | "rating" | "cashReconciliation" | "notification"
+    modelProps: "otpRequest" | "user" | "client" | "driver" | "vendor" | "admin" | "address" | "cart" | "cartItem" | "order" | "orderItem" | "menuItem" | "dispatch" | "dispatchLog" | "rating" | "cashReconciliation" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    OtpRequest: {
+      payload: Prisma.$OtpRequestPayload<ExtArgs>
+      fields: Prisma.OtpRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OtpRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OtpRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.OtpRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OtpRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>
+        }
+        findMany: {
+          args: Prisma.OtpRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>[]
+        }
+        create: {
+          args: Prisma.OtpRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>
+        }
+        createMany: {
+          args: Prisma.OtpRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OtpRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.OtpRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>
+        }
+        update: {
+          args: Prisma.OtpRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.OtpRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OtpRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OtpRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.OtpRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OtpRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.OtpRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOtpRequest>
+        }
+        groupBy: {
+          args: Prisma.OtpRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OtpRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OtpRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OtpRequestCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1642,6 +1717,19 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const OtpRequestScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  phone: 'phone',
+  attempts: 'attempts',
+  blockedUntil: 'blockedUntil',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OtpRequestScalarFieldEnum = (typeof OtpRequestScalarFieldEnum)[keyof typeof OtpRequestScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1928,6 +2016,34 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
  * Reference to a field of type 'RoleEnum'
  */
 export type EnumRoleEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleEnum'>
@@ -1956,20 +2072,6 @@ export type ListEnumStatusEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
  * Reference to a field of type 'DriverStatus'
  */
 export type EnumDriverStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DriverStatus'>
@@ -1994,20 +2096,6 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -2211,6 +2299,7 @@ export type PrismaClientOptions = ({
   queryPlanCacheMaxSize?: number
 }
 export type GlobalOmitConfig = {
+  otpRequest?: Prisma.OtpRequestOmit
   user?: Prisma.UserOmit
   client?: Prisma.ClientOmit
   driver?: Prisma.DriverOmit
