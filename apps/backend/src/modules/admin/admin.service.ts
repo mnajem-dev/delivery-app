@@ -1,64 +1,96 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../../database/prisma.service';
+import { StatusEnum, OrderStatus } from '../../database/generated/prisma/client';
 
 @Injectable()
 export class AdminService {
-  // Mock data for demonstration
-  private mockOrders = Array.from({ length: 50 }, (_, i) => ({
-    id: `order-${i + 1}`,
-    customerName: `Customer ${i + 1}`,
-    status: i % 3 === 0 ? 'DELIVERED' : i % 3 === 1 ? 'PLACED' : 'ASSIGNED',
-    amount: Math.floor(Math.random() * 100) + 10,
-    createdAt: new Date(Date.now() - i * 3600000).toISOString(),
-  }));
+  constructor(private readonly prisma: PrismaService) {}
 
-  private mockUsers = [
-    { id: 'user-1', name: 'John Doe', email: 'john@example.com', suspended: false },
-    { id: 'user-2', name: 'Jane Smith', email: 'jane@example.com', suspended: false },
-  ];
-
-  getOrders(page = 1, limit = 10) {
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const data = this.mockOrders.slice(startIndex, endIndex);
-
+  async getOrders(page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
+    const [data, total] = await Promise.all([
+      this.prisma.order.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          client: {
+            include: {
+              user: { select: { id: true, name: true, email: true, phone: true } },
+            },
+          },
+        },
+      }),
+      this.prisma.order.count(),
+    ]);
     return {
       data,
       meta: {
-        totalItems: this.mockOrders.length,
+        totalItems: total,
         itemCount: data.length,
         itemsPerPage: limit,
-        totalPages: Math.ceil(this.mockOrders.length / limit),
+        totalPages: Math.ceil(total / limit),
         currentPage: page,
       },
     };
   }
 
-  getStats() {
-    const totalOrders = this.mockOrders.length;
-    const totalRevenue = this.mockOrders.reduce((sum, o) => sum + o.amount, 0);
-    const ordersByStatus = this.mockOrders.reduce((acc, o) => {
-      acc[o.status] = (acc[o.status] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+  async getStats() {
+    const [
+      totalOrders,
+      totalUsers,
+      totalVendors,
+      activeUsersCount,
+      suspendedUsersCount,
+      revenueAgg,
+      confirmedCount,
+      preparingCount,
+      pickedUpCount,
+      onWayCount,
+      deliveredCount,
+      cancelledCount,
+    ] = await Promise.all([
+      this.prisma.order.count(),
+      this.prisma.user.count(),
+      this.prisma.vendor.count(),
+      this.prisma.user.count({ where: { status: StatusEnum.ACTIVE } }),
+      this.prisma.user.count({ where: { status: StatusEnum.SUSPENDED } }),
+      this.prisma.order.aggregate({ _sum: { totalMinor: true } }),
+      this.prisma.order.count({ where: { status: OrderStatus.CONFIRMED } }),
+      this.prisma.order.count({ where: { status: OrderStatus.PREPARING } }),
+      this.prisma.order.count({ where: { status: OrderStatus.PICKED_UP } }),
+      this.prisma.order.count({ where: { status: OrderStatus.ON_WAY } }),
+      this.prisma.order.count({ where: { status: OrderStatus.DELIVERED } }),
+      this.prisma.order.count({ where: { status: OrderStatus.CANCELLED } }),
+    ]);
 
     return {
       totalOrders,
-      totalRevenue,
-      ordersByStatus,
-      activeUsersCount: this.mockUsers.filter(u => !u.suspended).length,
-      suspendedUsersCount: this.mockUsers.filter(u => u.suspended).length,
+      totalUsers,
+      totalVendors,
+      totalRevenue: revenueAgg._sum.totalMinor ?? 0,
+      activeUsersCount,
+      suspendedUsersCount,
+      ordersByStatus: {
+        [OrderStatus.CONFIRMED]: confirmedCount,
+        [OrderStatus.PREPARING]: preparingCount,
+        [OrderStatus.PICKED_UP]: pickedUpCount,
+        [OrderStatus.ON_WAY]: onWayCount,
+        [OrderStatus.DELIVERED]: deliveredCount,
+        [OrderStatus.CANCELLED]: cancelledCount,
+      },
     };
   }
 
-  suspendUser(userId: string) {
-    const user = this.mockUsers.find(u => u.id === userId);
+  async suspendUser(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
-    user.suspended = true;
-    return {
-      message: `User ${userId} has been suspended successfully`,
-      user,
-    };
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: { status: StatusEnum.SUSPENDED },
+      select: { id: true, name: true, email: true, phone: true, status: true },
+    });
   }
 }

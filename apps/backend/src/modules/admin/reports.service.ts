@@ -7,15 +7,15 @@ import PDFDocument = require('pdfkit');
 export class ReportsService {
   constructor(private readonly adminService: AdminService) {}
 
-  generateOrdersCsv(): string {
-    const ordersData = this.adminService.getOrders(1, 1000).data;
-    const fields = ['id', 'customerName', 'status', 'amount', 'createdAt'];
+  async generateOrdersCsv(): Promise<string> {
+    const { data: ordersData } = await this.adminService.getOrders(1, 1000);
+    const fields = ['id', 'status', 'totalMinor', 'totalCurrency', 'createdAt'];
     const parser = new Parser({ fields });
     return parser.parse(ordersData);
   }
 
-  generateStatsPdf(): Promise<Buffer> {
-    const stats = this.adminService.getStats();
+  async generateStatsPdf(): Promise<Buffer> {
+    const stats = await this.adminService.getStats();
 
     return new Promise((resolve, reject) => {
       const doc = new PDFDocument({ margin: 50 });
@@ -32,7 +32,7 @@ export class ReportsService {
       // Section 1: Overview
       doc.fontSize(14).text(`Generated At: ${new Date().toLocaleString()}`);
       doc.text(`Total Orders: ${stats.totalOrders}`);
-      doc.text(`Total Revenue: $${stats.totalRevenue}`);
+      doc.text(`Total Revenue: ${stats.totalRevenue} (minor units)`);
       doc.text(`Active Users: ${stats.activeUsersCount}`);
       doc.text(`Suspended Users: ${stats.suspendedUsersCount}`);
       doc.moveDown(1.5);

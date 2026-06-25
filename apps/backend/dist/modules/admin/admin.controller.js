@@ -31,7 +31,7 @@ let AdminController = class AdminController {
     suspendUser(userId) {
         return this.adminService.suspendUser(userId);
     }
-    getOrdersCsv(res) {
+    async getOrdersCsv(res) {
         res.set({
             'Content-Type': 'text/csv',
             'Content-Disposition': 'attachment; filename="orders.csv"',
@@ -76,7 +76,7 @@ __decorate([
     __param(0, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AdminController.prototype, "getOrdersCsv", null);
 __decorate([
     (0, common_1.Get)('reports/stats/pdf'),

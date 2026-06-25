@@ -18,14 +18,14 @@ let ReportsService = class ReportsService {
     constructor(adminService) {
         this.adminService = adminService;
     }
-    generateOrdersCsv() {
-        const ordersData = this.adminService.getOrders(1, 1000).data;
-        const fields = ['id', 'customerName', 'status', 'amount', 'createdAt'];
+    async generateOrdersCsv() {
+        const { data: ordersData } = await this.adminService.getOrders(1, 1000);
+        const fields = ['id', 'status', 'totalMinor', 'totalCurrency', 'createdAt'];
         const parser = new json2csv_1.Parser({ fields });
         return parser.parse(ordersData);
     }
-    generateStatsPdf() {
-        const stats = this.adminService.getStats();
+    async generateStatsPdf() {
+        const stats = await this.adminService.getStats();
         return new Promise((resolve, reject) => {
             const doc = new PDFDocument({ margin: 50 });
             const chunks = [];
@@ -36,7 +36,7 @@ let ReportsService = class ReportsService {
             doc.moveDown(1.5);
             doc.fontSize(14).text(`Generated At: ${new Date().toLocaleString()}`);
             doc.text(`Total Orders: ${stats.totalOrders}`);
-            doc.text(`Total Revenue: $${stats.totalRevenue}`);
+            doc.text(`Total Revenue: ${stats.totalRevenue} (minor units)`);
             doc.text(`Active Users: ${stats.activeUsersCount}`);
             doc.text(`Suspended Users: ${stats.suspendedUsersCount}`);
             doc.moveDown(1.5);

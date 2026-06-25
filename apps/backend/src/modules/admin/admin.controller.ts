@@ -43,7 +43,7 @@ export class AdminController {
   }
 
   @Get('reports/orders/csv')
-  getOrdersCsv(@Res({ passthrough: true }) res: Response) {
+  async getOrdersCsv(@Res({ passthrough: true }) res: Response) {
     res.set({
       'Content-Type': 'text/csv',
       'Content-Disposition': 'attachment; filename="orders.csv"',
