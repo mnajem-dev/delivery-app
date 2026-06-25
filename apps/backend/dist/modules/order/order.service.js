@@ -92,7 +92,20 @@ let OrderService = class OrderService {
             await tx.cart.delete({ where: { id: cart.id } });
             return created;
         });
-        this.emitter.emit(events_1.EVENTS.ORDER_PLACED, new order_placed_event_1.OrderPlacedEvent(order.id, clientId, cart.vendorId, totalMinor, currency));
+        const [clientUser, deviceToken] = await Promise.all([
+            this.prisma.user.findUnique({
+                where: { id: clientId },
+                select: { phone: true },
+            }),
+            this.prisma.deviceToken.findFirst({
+                where: {
+                    userId: clientId,
+                    platform: { in: ['android', 'ios'] },
+                },
+                orderBy: { updatedAt: 'desc' },
+            }),
+        ]);
+        this.emitter.emit(events_1.EVENTS.ORDER_PLACED, new order_placed_event_1.OrderPlacedEvent(order.id, clientId, cart.vendorId, totalMinor, currency, clientUser?.phone ?? undefined, deviceToken?.token ?? undefined));
         return order;
     }
     listOrders(clientId) {

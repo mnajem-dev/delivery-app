@@ -13,6 +13,7 @@ export declare const AnyNull: import("@prisma/client/runtime/client").AnyNullCla
 export declare const ModelName: {
     readonly OtpRequest: "OtpRequest";
     readonly User: "User";
+    readonly DeviceToken: "DeviceToken";
     readonly Client: "Client";
     readonly Driver: "Driver";
     readonly Vendor: "Vendor";
@@ -58,6 +59,15 @@ export declare const UserScalarFieldEnum: {
     readonly createdAt: "createdAt";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+export declare const DeviceTokenScalarFieldEnum: {
+    readonly id: "id";
+    readonly userId: "userId";
+    readonly token: "token";
+    readonly platform: "platform";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type DeviceTokenScalarFieldEnum = (typeof DeviceTokenScalarFieldEnum)[keyof typeof DeviceTokenScalarFieldEnum];
 export declare const ClientScalarFieldEnum: {
     readonly userId: "userId";
 };

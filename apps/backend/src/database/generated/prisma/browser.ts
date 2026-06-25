@@ -28,6 +28,11 @@ export type OtpRequest = Prisma.OtpRequestModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model DeviceToken
+ * 
+ */
+export type DeviceToken = Prisma.DeviceTokenModel
+/**
  * Model Client
  * 
  */

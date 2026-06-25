@@ -116,6 +116,20 @@ export class OrderService {
     });
 
     // 5. Publish event — dispatch and notification must listen, never called directly
+    const [clientUser, deviceToken] = await Promise.all([
+      this.prisma.user.findUnique({
+        where: { id: clientId },
+        select: { phone: true },
+      }),
+      this.prisma.deviceToken.findFirst({
+        where: {
+          userId: clientId,
+          platform: { in: ['android', 'ios'] },
+        },
+        orderBy: { updatedAt: 'desc' },
+      }),
+    ]);
+
     this.emitter.emit(
       EVENTS.ORDER_PLACED,
       new OrderPlacedEvent(
@@ -124,6 +138,8 @@ export class OrderService {
         cart.vendorId,
         totalMinor,
         currency,
+        clientUser?.phone ?? undefined,
+        deviceToken?.token ?? undefined,
       ),
     );
 
