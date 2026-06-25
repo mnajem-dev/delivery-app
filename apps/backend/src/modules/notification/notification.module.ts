@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
-import { OrderPlacedListener } from './listeners/order-placed.listener';
+import { NotificationService } from './notification.service';
+import { FcmService } from './fcm.service';
+import { WhatsappService } from './whatsapp.service';
 
 @Module({
-  providers: [OrderPlacedListener],
+  providers: [NotificationService, FcmService, WhatsappService],
+  exports: [FcmService, WhatsappService],
 })
 export class NotificationModule {}
