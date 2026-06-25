@@ -14,9 +14,13 @@ import { Response } from 'express';
 import { AdminService } from './admin.service';
 import { ReportsService } from './reports.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../identity/guards/roles.guard';
+import { Roles } from '../identity/decorators/roles.decorator';
+import { RoleEnum } from '../../database/generated/prisma/client';
 
 @Controller('admin')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(RoleEnum.ADMIN)
 export class AdminController {
   constructor(
     private readonly adminService: AdminService,

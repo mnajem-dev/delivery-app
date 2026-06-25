@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const admin_service_1 = require("./admin.service");
 const reports_service_1 = require("./reports.service");
 const jwt_auth_guard_1 = require("../../common/guards/jwt-auth.guard");
+const roles_guard_1 = require("../identity/guards/roles.guard");
+const roles_decorator_1 = require("../identity/decorators/roles.decorator");
+const client_1 = require("../../database/generated/prisma/client");
 let AdminController = class AdminController {
     constructor(adminService, reportsService) {
         this.adminService = adminService;
@@ -87,7 +90,8 @@ __decorate([
 ], AdminController.prototype, "getStatsPdf", null);
 exports.AdminController = AdminController = __decorate([
     (0, common_1.Controller)('admin'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(client_1.RoleEnum.ADMIN),
     __metadata("design:paramtypes", [admin_service_1.AdminService,
         reports_service_1.ReportsService])
 ], AdminController);
