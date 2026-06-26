@@ -1,2 +1,10 @@
 CLAUDE.md
 node_modules
+
+# Local secrets / env — never commit these (keep .env.example tracked)
+.env
+**/.env
+!**/.env.example
+
+# Logs
+**/*.log

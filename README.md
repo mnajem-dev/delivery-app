@@ -1,0 +1,70 @@
+# Delivery App
+
+Monorepo: NestJS backend + Expo apps (customer, driver) + Vite admin web, with shared packages.
+
+---
+
+## ▶️ Run the backend — one command
+
+**The only thing you need installed is [Docker Desktop](https://www.docker.com/products/docker-desktop/) (started).**
+You do **not** need Node, pnpm, Postgres, or a `.env` file to run it.
+
+```bash
+git clone https://github.com/mnajem-dev/delivery-app
+cd delivery-app
+docker compose up        # add -d to run in the background
+```
+
+This builds the API, starts Postgres + MinIO, **applies the database migrations automatically**,
+and serves the API on **http://localhost:3000**.
+
+Check it works:
+
+```bash
+curl http://localhost:3000/health        # → {"status":"ok"}
+```
+
+Stop it: `Ctrl+C` (or `docker compose down`). Wipe the database and start fresh:
+`docker compose down -v`.
+
+| Service | URL |
+|---|---|
+| API | http://localhost:3000 |
+| Postgres | localhost:5432 (`postgres` / `postgres`, db `delivery_app`) |
+| MinIO (object storage) | http://localhost:9000 — console http://localhost:9001 (`minioadmin` / `minioadmin`) |
+
+---
+
+## 🧰 Troubleshooting (read this before asking)
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `Cannot connect to the Docker daemon` | Docker Desktop isn't running | Open Docker Desktop, wait for it to say "running", retry. |
+| `port is already allocated` / `address already in use` on **5432** | Another Postgres is using the port | Stop it, or change the host port in `docker-compose.yml` (e.g. `"5433:5432"`). Find it: `lsof -i :5432`. |
+| Same on **3000** | Another app on 3000 | Free it (`lsof -i :3000`) or change the backend `ports` mapping in `docker-compose.yml`. |
+| `Can't reach database server at localhost:5432` (running natively, not Docker) | macOS resolves `localhost` to IPv6 | Use `127.0.0.1` instead of `localhost` in `DATABASE_URL`. |
+| `ERR_PNPM_OUTDATED_LOCKFILE` / frozen-lockfile mismatch | `package.json` changed but `pnpm-lock.yaml` wasn't updated | Run `pnpm install` (no `--frozen-lockfile`) and commit the updated lockfile. |
+| Code change not picked up | Image is built once | Rebuild: `docker compose up --build`. |
+| Anything weird after a schema change | Stale DB volume | `docker compose down -v && docker compose up` (re-creates + re-migrates). |
+
+If it's still broken: `docker compose logs backend` shows the real error — paste **that**, not "it doesn't work".
+
+---
+
+## 💻 Developing without Docker (optional)
+
+Use the pinned toolchain — **Node 22** (`.nvmrc`) and **pnpm 11** (via Corepack). Version
+mismatches fail fast because `engine-strict` is on.
+
+```bash
+corepack enable                 # activates the pinned pnpm
+nvm use                         # Node 22 (from .nvmrc)
+pnpm install
+
+docker compose up -d postgres minio          # just the infra
+cp apps/backend/.env.example apps/backend/.env   # then run migrations + dev server:
+pnpm --filter @delivery-app/backend exec prisma migrate deploy
+pnpm --filter @delivery-app/backend run start:dev
+```
+
+> Never commit `.env` — it's gitignored. Put real secrets there locally only.

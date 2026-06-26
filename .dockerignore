@@ -1,0 +1,14 @@
+# Keep the Docker build context small + reproducible.
+**/node_modules
+**/dist
+**/.next
+**/.expo
+**/.turbo
+.git
+.github
+**/*.log
+**/.env
+# Frontend apps aren't part of the backend image.
+apps/customer
+apps/driver
+apps/admin

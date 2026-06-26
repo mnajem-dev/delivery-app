@@ -37,6 +37,38 @@ services:
       timeout: 5s
       retries: 5
 
+  # The API. `docker compose up` builds this, waits for the DB to be healthy,
+  # applies migrations, then serves on http://localhost:3000 — no local Node/.env needed.
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: delivery-app-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    environment:
+      # DB host is the compose service name, not localhost.
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/delivery_app
+      JWT_SECRET: dev-secret-change-me
+      JWT_EXPIRES_IN: 7d
+      # Object storage (MinIO service above).
+      STORAGE_ENDPOINT: http://minio:9000
+      STORAGE_REGION: us-east-1
+      STORAGE_ACCESS_KEY: minioadmin
+      STORAGE_SECRET_KEY: minioadmin
+      STORAGE_BUCKET: delivery-app
+      STORAGE_PUBLIC_URL: http://localhost:9000
+      # OTP provider — placeholder so the app boots; replace to exercise OTP signup.
+      OTP_API_BASE_URL: https://your-otp-provider.example.com
+      OTP_API_KEY: placeholder
+      PORT: "3000"
+    ports:
+      - "3000:3000"
+
 volumes:
   postgres_data:
   minio_data:
