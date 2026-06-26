@@ -8,6 +8,7 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma };
 export type OtpRequest = Prisma.OtpRequestModel;
 export type User = Prisma.UserModel;
+export type DeviceToken = Prisma.DeviceTokenModel;
 export type Client = Prisma.ClientModel;
 export type Driver = Prisma.DriverModel;
 export type Vendor = Prisma.VendorModel;

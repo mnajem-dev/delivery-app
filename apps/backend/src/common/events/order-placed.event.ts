@@ -5,5 +5,7 @@ export class OrderPlacedEvent {
     public readonly vendorId: string,
     public readonly totalMinor: number,
     public readonly totalCurrency: string,
+    public readonly customerPhone?: string,
+    public readonly fcmToken?: string,
   ) {}
 }

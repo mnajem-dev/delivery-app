@@ -8,13 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationModule = void 0;
 const common_1 = require("@nestjs/common");
-const order_placed_listener_1 = require("./listeners/order-placed.listener");
+const notification_service_1 = require("./notification.service");
+const fcm_service_1 = require("./fcm.service");
+const whatsapp_service_1 = require("./whatsapp.service");
 let NotificationModule = class NotificationModule {
 };
 exports.NotificationModule = NotificationModule;
 exports.NotificationModule = NotificationModule = __decorate([
     (0, common_1.Module)({
-        providers: [order_placed_listener_1.OrderPlacedListener],
+        providers: [notification_service_1.NotificationService, fcm_service_1.FcmService, whatsapp_service_1.WhatsappService],
+        exports: [fcm_service_1.FcmService, whatsapp_service_1.WhatsappService],
     })
 ], NotificationModule);
 //# sourceMappingURL=notification.module.js.map

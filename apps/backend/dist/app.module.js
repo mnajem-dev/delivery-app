@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+const jwt_1 = require("@nestjs/jwt");
 const event_emitter_1 = require("@nestjs/event-emitter");
 const prisma_module_1 = require("./database/prisma.module");
 const address_module_1 = require("./modules/address/address.module");
@@ -27,6 +28,11 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ isGlobal: true }),
+            jwt_1.JwtModule.register({
+                global: true,
+                secret: process.env.JWT_SECRET || 'super-secret-key',
+                signOptions: { expiresIn: '1d' },
+            }),
             event_emitter_1.EventEmitterModule.forRoot(),
             prisma_module_1.PrismaModule,
             identity_module_1.IdentityModule,

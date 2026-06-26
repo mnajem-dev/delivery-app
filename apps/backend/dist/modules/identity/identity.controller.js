@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.IdentityController = void 0;
 const common_1 = require("@nestjs/common");
 const client_1 = require("../../database/generated/prisma/client");
+const prisma_service_1 = require("../../database/prisma.service");
 const current_user_decorator_1 = require("./decorators/current-user.decorator");
 const roles_decorator_1 = require("./decorators/roles.decorator");
 const login_dto_1 = require("./dto/login.dto");
@@ -25,8 +26,9 @@ const jwt_auth_guard_1 = require("./guards/jwt-auth.guard");
 const roles_guard_1 = require("./guards/roles.guard");
 const identity_service_1 = require("./identity.service");
 let IdentityController = class IdentityController {
-    constructor(identityService) {
+    constructor(identityService, prisma) {
         this.identityService = identityService;
+        this.prisma = prisma;
     }
     register(dto) {
         return this.identityService.register(dto);
@@ -42,6 +44,22 @@ let IdentityController = class IdentityController {
     }
     me(user) {
         return this.identityService.getProfile(user.sub);
+    }
+    registerDeviceToken(body, user) {
+        return this.prisma.deviceToken.upsert({
+            where: {
+                userId_platform: {
+                    userId: user.sub,
+                    platform: body.platform,
+                },
+            },
+            update: { token: body.token },
+            create: {
+                userId: user.sub,
+                token: body.token,
+                platform: body.platform,
+            },
+        });
     }
     adminPing(user) {
         return {
@@ -88,6 +106,15 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], IdentityController.prototype, "me", null);
 __decorate([
+    (0, common_1.Post)('device-token'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], IdentityController.prototype, "registerDeviceToken", null);
+__decorate([
     (0, common_1.Get)('admin/ping'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(client_1.RoleEnum.ADMIN),
@@ -98,6 +125,7 @@ __decorate([
 ], IdentityController.prototype, "adminPing", null);
 exports.IdentityController = IdentityController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [identity_service_1.IdentityService])
+    __metadata("design:paramtypes", [identity_service_1.IdentityService,
+        prisma_service_1.PrismaService])
 ], IdentityController);
 //# sourceMappingURL=identity.controller.js.map

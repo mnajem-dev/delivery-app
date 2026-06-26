@@ -6,6 +6,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { RoleEnum } from '../../database/generated/prisma/client';
+import { PrismaService } from '../../database/prisma.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Roles } from './decorators/roles.decorator';
 import { LoginDto } from './dto/login.dto';
@@ -19,7 +20,10 @@ import { AuthenticatedUser } from './interfaces/jwt-payload.interface';
 
 @Controller('auth')
 export class IdentityController {
-  constructor(private readonly identityService: IdentityService) {}
+  constructor(
+    private readonly identityService: IdentityService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   @Post('register')
   register(@Body() dto: RegisterDto) {
@@ -45,6 +49,28 @@ export class IdentityController {
   @UseGuards(JwtAuthGuard)
   me(@CurrentUser() user: AuthenticatedUser) {
     return this.identityService.getProfile(user.sub);
+  }
+
+  @Post('device-token')
+  @UseGuards(JwtAuthGuard)
+  registerDeviceToken(
+    @Body() body: { token: string; platform: string },
+    @CurrentUser() user: AuthenticatedUser,
+  ) {
+    return this.prisma.deviceToken.upsert({
+      where: {
+        userId_platform: {
+          userId: user.sub,
+          platform: body.platform,
+        },
+      },
+      update: { token: body.token },
+      create: {
+        userId: user.sub,
+        token: body.token,
+        platform: body.platform,
+      },
+    });
   }
 
   @Get('admin/ping')

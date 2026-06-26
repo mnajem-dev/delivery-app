@@ -36,6 +36,9 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get user(): Prisma.UserDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    get deviceToken(): Prisma.DeviceTokenDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
     get client(): Prisma.ClientDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;

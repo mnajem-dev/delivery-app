@@ -4,5 +4,7 @@ export declare class OrderPlacedEvent {
     readonly vendorId: string;
     readonly totalMinor: number;
     readonly totalCurrency: string;
-    constructor(orderId: string, clientId: string, vendorId: string, totalMinor: number, totalCurrency: string);
+    readonly customerPhone?: string | undefined;
+    readonly fcmToken?: string | undefined;
+    constructor(orderId: string, clientId: string, vendorId: string, totalMinor: number, totalCurrency: string, customerPhone?: string | undefined, fcmToken?: string | undefined);
 }

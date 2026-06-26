@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JsonNullValueFilter = exports.NullsOrder = exports.QueryMode = exports.JsonNullValueInput = exports.SortOrder = exports.NotificationScalarFieldEnum = exports.CashReconciliationScalarFieldEnum = exports.RatingScalarFieldEnum = exports.DispatchLogScalarFieldEnum = exports.DispatchScalarFieldEnum = exports.MenuItemScalarFieldEnum = exports.OrderItemScalarFieldEnum = exports.OrderScalarFieldEnum = exports.CartItemScalarFieldEnum = exports.CartScalarFieldEnum = exports.AddressScalarFieldEnum = exports.AdminScalarFieldEnum = exports.VendorScalarFieldEnum = exports.DriverScalarFieldEnum = exports.ClientScalarFieldEnum = exports.UserScalarFieldEnum = exports.OtpRequestScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.JsonNullValueFilter = exports.NullsOrder = exports.QueryMode = exports.JsonNullValueInput = exports.SortOrder = exports.NotificationScalarFieldEnum = exports.CashReconciliationScalarFieldEnum = exports.RatingScalarFieldEnum = exports.DispatchLogScalarFieldEnum = exports.DispatchScalarFieldEnum = exports.MenuItemScalarFieldEnum = exports.OrderItemScalarFieldEnum = exports.OrderScalarFieldEnum = exports.CartItemScalarFieldEnum = exports.CartScalarFieldEnum = exports.AddressScalarFieldEnum = exports.AdminScalarFieldEnum = exports.VendorScalarFieldEnum = exports.DriverScalarFieldEnum = exports.ClientScalarFieldEnum = exports.DeviceTokenScalarFieldEnum = exports.UserScalarFieldEnum = exports.OtpRequestScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -47,6 +47,7 @@ exports.AnyNull = runtime.AnyNull;
 exports.ModelName = {
     OtpRequest: 'OtpRequest',
     User: 'User',
+    DeviceToken: 'DeviceToken',
     Client: 'Client',
     Driver: 'Driver',
     Vendor: 'Vendor',
@@ -87,6 +88,14 @@ exports.UserScalarFieldEnum = {
     role: 'role',
     status: 'status',
     createdAt: 'createdAt'
+};
+exports.DeviceTokenScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    token: 'token',
+    platform: 'platform',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.ClientScalarFieldEnum = {
     userId: 'userId'
