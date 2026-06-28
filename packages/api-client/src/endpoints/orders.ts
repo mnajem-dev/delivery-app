@@ -1,39 +1,16 @@
 import { ApiClient } from '../client';
-import { CreateOrderDto, OrderStatus, RoleEnum } from '@delivery-app/shared-types';
+import { CreateOrderDto, OrderDto } from '@delivery-app/shared-types';
 
-interface OrderItem {
-  id: string;
-  menuItemId: string;
-  quantity: number;
-  unitPriceMinor: number;
-  unitPriceCurrency: string;
-  menuItem: { name: string; imageUrl: string | null };
+export interface OrdersApi {
+  create(dto: CreateOrderDto): Promise<OrderDto>;
+  list(): Promise<OrderDto[]>;
+  getById(id: string): Promise<OrderDto>;
 }
 
-interface Order {
-  id: string;
-  clientId: string;
-  vendorId: string;
-  status: OrderStatus;
-  subtotalMinor: number;
-  subtotalCurrency: string;
-  totalMinor: number;
-  totalCurrency: string;
-  tipMinor: number;
-  createdAt: string;
-  vendor: { name: string; logoUrl: string | null };
-  items: OrderItem[];
-}
-
-export function createOrderEndpoints(client: ApiClient) {
+export function createOrderEndpoints(client: ApiClient): OrdersApi {
   return {
-    create: (body: CreateOrderDto) =>
-      client.post<Order>('/orders', body),
-
-    list: () =>
-      client.get<Order[]>('/orders'),
-
-    getById: (id: string) =>
-      client.get<Order>(`/orders/${id}`),
+    create: (dto) => client.post<OrderDto>('/orders', dto),
+    list: () => client.get<OrderDto[]>('/orders'),
+    getById: (id) => client.get<OrderDto>(`/orders/${id}`),
   };
 }

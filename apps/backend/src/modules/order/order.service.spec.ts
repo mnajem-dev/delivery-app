@@ -51,15 +51,15 @@ const mockOrder = {
   paymentType: 'CASH_ON_DELIVERY',
   subtotalMinor: 2400,
   subtotalCurrency: 'USD',
-  deliveryFeeMinor: 0,
+  deliveryFeeMinor: 250,
   deliveryFeeCurrency: 'USD',
-  serviceFeeMinor: 0,
+  serviceFeeMinor: 100,
   serviceFeeCurrency: 'USD',
   taxMinor: 0,
   taxCurrency: 'USD',
   tipMinor: 0,
   tipCurrency: 'USD',
-  totalMinor: 2400,
+  totalMinor: 2750,
   totalCurrency: 'USD',
   deliveryAddressSnapshot: {},
   createdAt: new Date(),
@@ -142,10 +142,10 @@ describe('OrderService', () => {
     it('computes subtotal as sum of unitPriceMinor × quantity', async () => {
       await service.createOrder(CLIENT_ID, dto);
 
-      // 2 items × 1200 = 2400
+      // 2 items × 1200 = 2400 subtotal; + DEFAULT_FEES (250 delivery + 100 service) = 2750
       expect(prisma._txMock.order.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining({ subtotalMinor: 2400, totalMinor: 2400 }),
+          data: expect.objectContaining({ subtotalMinor: 2400, totalMinor: 2750 }),
         }),
       );
     });
@@ -153,9 +153,10 @@ describe('OrderService', () => {
     it('adds tip to totalMinor', async () => {
       await service.createOrder(CLIENT_ID, { ...dto, tipMinor: 300 });
 
+      // 2400 subtotal + 350 fees + 300 tip = 3050
       expect(prisma._txMock.order.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining({ tipMinor: 300, totalMinor: 2700 }),
+          data: expect.objectContaining({ tipMinor: 300, totalMinor: 3050 }),
         }),
       );
     });
@@ -177,7 +178,7 @@ describe('OrderService', () => {
       const event: OrderPlacedEvent = emitter.emit.mock.calls[0][1];
       expect(event.orderId).toBe(ORDER_ID);
       expect(event.clientId).toBe(CLIENT_ID);
-      expect(event.totalMinor).toBe(2400);
+      expect(event.totalMinor).toBe(2750);
     });
 
     it('throws BadRequestException when cart is empty', async () => {
