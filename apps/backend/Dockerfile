@@ -16,6 +16,9 @@ COPY apps/backend ./apps/backend
 # Install just the backend and its workspace deps (shared-types), reproducibly.
 RUN pnpm install --frozen-lockfile --filter @delivery-app/backend...
 
+# Build the workspace lib the backend imports (dist/ is no longer committed).
+RUN pnpm --filter @delivery-app/shared-types build
+
 # Generate the Prisma client (schema lives under src/database/prisma).
 RUN pnpm --filter @delivery-app/backend exec prisma generate
 
