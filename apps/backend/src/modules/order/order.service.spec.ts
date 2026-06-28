@@ -81,6 +81,9 @@ const makePrisma = () => {
       findUnique: jest.fn(),
       findMany: jest.fn(),
     },
+    // order.service looks up the client's phone + device token to enrich OrderPlacedEvent
+    user: { findUnique: jest.fn().mockResolvedValue({ phone: '+10000000000' }) },
+    deviceToken: { findFirst: jest.fn().mockResolvedValue(null) },
     $transaction: jest.fn().mockImplementation(async (fn: (tx: typeof txMock) => Promise<unknown>) =>
       fn(txMock),
     ),
