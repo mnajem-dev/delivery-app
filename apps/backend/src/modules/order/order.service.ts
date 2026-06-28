@@ -9,16 +9,12 @@ import { OrderStatus } from '../../database/generated/prisma/client';
 import { PrismaService } from '../../database/prisma.service';
 import { EVENTS } from '../../common/events/events';
 import { OrderPlacedEvent } from '../../common/events/order-placed.event';
+import { computeOrderTotals, DEFAULT_FEES } from '@delivery-app/shared-types';
 import { CreateOrderDto } from './dto/create-order.dto';
 
 const PAYMENT_TYPE = 'CASH_ON_DELIVERY';
-const ZERO_FEE = { minor: 0, currency: 'USD' } as const;
 
 type Money = number; // integer minor units (cents)
-
-function addMoney(...amounts: Money[]): Money {
-  return amounts.reduce((sum, a) => sum + a, 0);
-}
 
 @Injectable()
 export class OrderService {
@@ -57,13 +53,12 @@ export class OrderService {
       0,
     );
     const tipMinor: Money = dto.tipMinor ?? 0;
-    const totalMinor: Money = addMoney(
-      subtotalMinor,
-      ZERO_FEE.minor, // deliveryFee
-      ZERO_FEE.minor, // serviceFee
-      ZERO_FEE.minor, // tax
-      tipMinor,
-    );
+    // Shared fee model — DEFAULT_FEES now; US-803 will supply real fees to the same fn.
+    const totals = computeOrderTotals(subtotalMinor, tipMinor, {
+      ...DEFAULT_FEES,
+      currency,
+    });
+    const totalMinor: Money = totals.totalMinor;
 
     const addressSnapshot = {
       label: address.label,
@@ -84,11 +79,11 @@ export class OrderService {
           paymentType: PAYMENT_TYPE,
           subtotalMinor,
           subtotalCurrency: currency,
-          deliveryFeeMinor: ZERO_FEE.minor,
+          deliveryFeeMinor: totals.deliveryFeeMinor,
           deliveryFeeCurrency: currency,
-          serviceFeeMinor: ZERO_FEE.minor,
+          serviceFeeMinor: totals.serviceFeeMinor,
           serviceFeeCurrency: currency,
-          taxMinor: ZERO_FEE.minor,
+          taxMinor: totals.taxMinor,
           taxCurrency: currency,
           tipMinor,
           tipCurrency: currency,
