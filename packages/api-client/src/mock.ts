@@ -107,12 +107,89 @@ export function createMockApiClient(): Api {
     },
 
     cart: {
-      get: () => ok(fixtureCart),
-      addItem: () => ok(fixtureCart.items[0] as CartItemDto),
-      updateItem: () => ok(fixtureCart.items[0] as CartItemDto),
-      removeItem: () => ok(undefined),
-      clear: () => ok(undefined),
-    },
+  get: () => ok(fixtureCart),
+
+  addItem: (dto) => {
+    const menuItem = fixtureMenuItems.find((item) => item.id === dto.menuItemId);
+
+    if (!menuItem) {
+      return ok(fixtureCart.items[0] as CartItemDto);
+    }
+
+    const existing = fixtureCart.items.find(
+      (item) => item.menuItemId === dto.menuItemId,
+    );
+
+    if (existing) {
+      existing.quantity += dto.quantity;
+      fixtureCart.subtotalMinor = fixtureCart.items.reduce(
+        (sum, item) => sum + item.unitPriceMinor * item.quantity,
+        0,
+      );
+
+      return ok(existing);
+    }
+
+    const newItem: CartItemDto = {
+      id: `mock-cart-item-${Date.now()}`,
+      menuItemId: menuItem.id,
+      quantity: dto.quantity,
+      unitPriceMinor: menuItem.priceMinor,
+      unitPriceCurrency: menuItem.priceCurrency,
+      selectedOptions: dto.options ?? {},
+      menuItem: {
+        name: menuItem.name,
+        imageUrl: menuItem.imageUrl,
+        priceMinor: menuItem.priceMinor,
+        priceCurrency: menuItem.priceCurrency,
+      },
+    };
+
+    fixtureCart.items.push(newItem);
+
+    fixtureCart.subtotalMinor = fixtureCart.items.reduce(
+      (sum, item) => sum + item.unitPriceMinor * item.quantity,
+      0,
+    );
+
+    return ok(newItem);
+  },
+
+  updateItem: (itemId, dto) => {
+    const item = fixtureCart.items.find((cartItem) => cartItem.id === itemId);
+
+    if (!item) {
+      return ok(fixtureCart.items[0] as CartItemDto);
+    }
+
+    item.quantity = dto.quantity;
+
+    fixtureCart.subtotalMinor = fixtureCart.items.reduce(
+      (sum, cartItem) => sum + cartItem.unitPriceMinor * cartItem.quantity,
+      0,
+    );
+
+    return ok(item);
+  },
+
+  removeItem: (itemId) => {
+    fixtureCart.items = fixtureCart.items.filter((item) => item.id !== itemId);
+
+    fixtureCart.subtotalMinor = fixtureCart.items.reduce(
+      (sum, cartItem) => sum + cartItem.unitPriceMinor * cartItem.quantity,
+      0,
+    );
+
+    return ok(undefined);
+  },
+
+  clear: () => {
+    fixtureCart.items = [];
+    fixtureCart.subtotalMinor = 0;
+
+    return ok(undefined);
+  },
+},
 
     orders: {
       create: () => ok(fixtureOrder),
