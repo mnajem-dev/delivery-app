@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="20ecd856-a11d-4dfa-8a57-dcdc72066833" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/apps/customer/.expo/dev/logs/start.log" beforeDir="false" afterPath="$PROJECT_DIR$/apps/customer/.expo/dev/logs/start.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/customer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/customer/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/customer/src/app/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/customer/src/app/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/customer/src/features/auth/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/customer/src/features/auth/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="3Fdb4dBPnoTyLo0na4HV8MxlgNd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "feature/customer-app",
+    "kotlin-language-version-configured": "true",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="20ecd856-a11d-4dfa-8a57-dcdc72066833" name="Changes" comment="" />
+      <created>1782407705942</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1782407705942</updated>
+    </task>
+    <servers />
+  </component>
+</project>
